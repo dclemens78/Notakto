@@ -1,15 +1,11 @@
 # Author : Danny Clemens
-# Course : CSC 4645
-# Final Project
-
-
 
 # notakto.py
 
 
 """
 
-This program uses tkinter and PILLOW to create a working 
+This program uses tkinter to create a working 
 game of notakto. Notakto is an impartial misere game that
 is similar to tic tac toe, in that is played on a 3x3 board.
 The key difference is that both players moves are represented with X, 
@@ -22,19 +18,17 @@ For this program, we will use a 5x5 board to make the game more fun.
 
 
 from tkinter import *
-from PIL import Image, ImageTk
 
 
 """
 
 Global Variables
 
-GAME_STATE (list or dict?)
-Current players turn
-hasWinner?
-
+GAME_STATE     : Tracks every move that has been made
+Current_PLAYER : Tracks which player's turn it is
 
 """
+
 CURRENT_PLAYER = "Player One"
 
 GAME_STATE = ["-", "-", "-", "-", "-",
@@ -50,23 +44,23 @@ def main():
     root = Tk()
     root.title("Notakto!")
 
-    # this method essentially cretaes the board
+    # this method essentially creates the board
     button_container = create_buttons(root)
-    
-
-
-
 
     root.mainloop()
     # closes the window
 
 
 def button_clicked(button, game_state_idx, turn_label):
+    """ this method is run when a button is clicked. This is the programs driver method. """
     global GAME_STATE
 
+    # Puts a game piece (blue X) on the button that was clicked
     button.configure(state=DISABLED, text="X", font="bold")
     button.configure(disabledforeground="blue")
 
+    
+    # Add X to the correct index of GAME_STATE to show a move was made there
     GAME_STATE[game_state_idx] = "X"
     change_turn(turn_label)
 
@@ -76,9 +70,12 @@ def button_clicked(button, game_state_idx, turn_label):
 
 
 def change_turn(turn_label):
+    """ This method is responsible for changing the label at the bottom """
+    
     global CURRENT_PLAYER
     CURRENT_PLAYER = "Player Two" if CURRENT_PLAYER == "Player One" else "Player One"
 
+    
     if is_game_over() == True:
         turn_label.configure(text=f"{CURRENT_PLAYER} Wins!")
     else:
@@ -87,7 +84,7 @@ def change_turn(turn_label):
 
 
 def is_game_over():
-    
+    """ This method checks every possible win to see if the game has been won yet """
 
     # horizontel wins
     if GAME_STATE[0] == "X" and GAME_STATE[1] == "X" and GAME_STATE[2] == "X" and GAME_STATE[3] == "X" and GAME_STATE[4] == "X":
